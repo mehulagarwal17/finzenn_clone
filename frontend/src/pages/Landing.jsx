@@ -8,18 +8,18 @@ import AnimatedBackground from "../components/ui/AnimatedBackground";
 import BubbleBackground from "./BubbleBackground";
 
 const Landing = () => (
-  <div className="relative min-h-screen bg-[#0a0f1c] text-white overflow-hidden ">
-      {/* 🌟 Bubbles across entire page */}
-      <Navbar />
-      <BubbleBackground />
+  <div className="min-h-screen bg-white dark:bg-[#0a0f1c] text-gray-900 dark:text-white transition-colors">
+    {/* 🌟 Bubbles across entire page */}
+    <Navbar />
+    <BubbleBackground />
 
-      {/* Page Sections */}
-      <HeroSection />
-      <FeatureSection />
-      <TestimonialSection />
-      <FAQSection />
-      <Footer />
-    </div>
+    {/* Page Sections */}
+    <HeroSection />
+    <FeatureSection />
+    <TestimonialSection />
+    <FAQSection />
+    <Footer />
+  </div>
 );
 
 export default Landing;

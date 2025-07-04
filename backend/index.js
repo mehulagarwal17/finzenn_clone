@@ -10,6 +10,8 @@ import insightRoutes from "./routes/insightRoutes.js";
 import transactionRoutes from './routes/transactionRoutes.js';
 import incVsExpRoutes from './routes/incVsExpRoute.js'
 import dashboardRoutes from './routes/dashboard.js';
+import otpRoutes from './routes/otpRoutes.js';
+
 
 dotenv.config();
 const app = express();
@@ -19,6 +21,7 @@ const allowedOrigins = [
   "https://finzen-z1gq.onrender.com",
   "http://localhost:5173"
 ];
+
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
@@ -28,12 +31,12 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api', cardRoutes);
-app.use("/api", insightRoutes);
+app.use('/api/cards', cardRoutes);
+app.use('/api/insights', insightRoutes);
 app.use('/api/transactions', transactionRoutes);
-app.use('/api', transactionRoutes);
-app.use("/api", incVsExpRoutes);
-app.use('/api', dashboardRoutes);
+app.use('/api/income-vs-expense', incVsExpRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/otp', otpRoutes);
 
 // Health check
 app.get('/', (req, res) => res.send('🚀 FinZen Backend Running'));

@@ -17,12 +17,14 @@ const GreetingSection = () => {
     // Fetch user profile
     const loadUserProfile = async () => {
       const profile = await fetchUserProfile();
-      if (profile?.profile?.firstName) {
+      if (profile?.username) {
+        setUserName(profile.username);
+      } else if (profile?.profile?.firstName) {
         setUserName(profile.profile.firstName);
       } else {
         setUserName(profile?.email || "User");
       }
-      setAvatar(profile?.profile?.avatar || require("../../assets/avatars/Avatar1.svg"));
+      setAvatar(profile?.profile?.avatar || "/src/assets/avatars/Avatar1.svg");
       setLoading(false);
     };
 

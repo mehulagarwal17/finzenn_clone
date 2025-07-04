@@ -25,7 +25,7 @@ const faqList = [
   },
   {
     q: "Is there a mobile app?",
-    a: "We’re working on it! FinZen’s mobile app will launch soon with full sync and offline access.",
+    a: "We're working on it! FinZen's mobile app will launch soon with full sync and offline access.",
   },
 ];
 
@@ -81,7 +81,7 @@ const FAQ = () => {
               onClick={() => toggleFAQ(index)}
               className="w-full flex justify-between items-center text-left"
             >
-              <h3 className="text-lg font-semibold text-[#e6ccff]">
+              <div className="text-lg font-semibold text-[#e6ccff]">
                 <motion.h2
                   className=" bg-gradient-to-r from-[#1db954] to-[#1e90ff] text-transparent bg-clip-text"
                   initial={{ opacity: 0, y: 30 }}
@@ -90,7 +90,7 @@ const FAQ = () => {
                 >
                   {item.q}
                 </motion.h2>
-              </h3>
+              </div>
               <span className="text-[#d1a6ff]">
                 {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
               </span>

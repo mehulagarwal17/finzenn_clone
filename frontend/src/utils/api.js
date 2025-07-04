@@ -1,4 +1,5 @@
 const API_BASE = import.meta.env.VITE_API_BASE
+// const API_URL = "http://localhost:5000";
 
 // 1. Fetch Profile
 export const fetchUserProfile = async () => {
@@ -22,7 +23,7 @@ export const fetchUserProfile = async () => {
 export const fetchCardsOverview = async () => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/cards`, {
+    const res = await fetch(`${API_BASE}/cards/cards`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -39,7 +40,7 @@ export const fetchCardsOverview = async () => {
 export const fetchInsights = async () => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/insights`, {
+    const res = await fetch(`${API_BASE}/insights/insights`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -56,7 +57,7 @@ export const fetchInsights = async () => {
 export const fetchSpendingBreakdown = async (filter = "month") => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/spending-breakdown?filter=${filter}`, {
+    const res = await fetch(`${API_BASE}/transactions/spending-breakdown?filter=${filter}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -73,7 +74,7 @@ export const fetchSpendingBreakdown = async (filter = "month") => {
 export const fetchIncomeBreakdown = async (filter = "month") => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/income?filter=${filter}`, {
+    const res = await fetch(`${API_BASE}/transactions/income?filter=${filter}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -89,7 +90,7 @@ export const fetchIncomeBreakdown = async (filter = "month") => {
 
 export const fetchIncomeVsExpense = async (filter = "month") => {
   try {
-    const res = await fetch(`${API_BASE}/income-vs-expense?filter=${filter}`, {
+    const res = await fetch(`${API_BASE}/income-vs-expense/income-vs-expense?filter=${filter}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -109,7 +110,7 @@ export const fetchIncomeVsExpense = async (filter = "month") => {
 export const fetchTransactions = async () => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/transactions`, {
+    const res = await fetch(`${API_BASE}/transactions/transactions`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -125,7 +126,7 @@ export const fetchTransactions = async () => {
 export const addTransaction = async (txn) => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/transactions`, {
+    const res = await fetch(`${API_BASE}/transactions/transactions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -144,7 +145,7 @@ export const addTransaction = async (txn) => {
 export const editTransaction = async (id, txn) => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/transactions/${id}`, {
+    const res = await fetch(`${API_BASE}/transactions/transactions/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -163,7 +164,7 @@ export const editTransaction = async (id, txn) => {
 export const deleteTransaction = async (id) => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/transactions/${id}`, {
+    const res = await fetch(`${API_BASE}/transactions/transactions/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -183,7 +184,7 @@ export const fetchSpendingCoachAdvice = async (transactions = null, followup = n
     const body = followup
       ? JSON.stringify({ transactions, followup })
       : JSON.stringify(transactions ? { transactions } : {});
-    const res = await fetch(`http://localhost:5000/api/spending-coach`, {
+    const res = await fetch(`${API_BASE}/dashboard/spending-coach`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -203,7 +204,7 @@ export const fetchSpendingCoachAdvice = async (transactions = null, followup = n
 export const fetchPortfolio = async () => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/portfolio`, {
+    const res = await fetch(`${API_BASE}/insights/portfolio`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -219,7 +220,7 @@ export const fetchPortfolio = async () => {
 export const tradePortfolio = async (asset, amount) => {
   const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${API_BASE}/portfolio/trade`, {
+    const res = await fetch(`${API_BASE}/insights/portfolio/trade`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -239,7 +240,7 @@ export const fetchLoanEligibility = async (income, employment, creditScore) => {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams({ income, employment, creditScore });
   try {
-    const res = await fetch(`${API_BASE}/loan-eligibility?${params.toString()}`, {
+    const res = await fetch(`${API_BASE}/insights/loan-eligibility?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -256,7 +257,7 @@ export const fetchGoalBooster = async (goal, current) => {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams({ goal, current });
   try {
-    const res = await fetch(`${API_BASE}/goal-booster?${params.toString()}`, {
+    const res = await fetch(`${API_BASE}/insights/goal-booster?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -285,5 +286,31 @@ export const updateUserProfile = async (profile) => {
   } catch (err) {
     console.error("❌ Error updating profile:", err);
     return null;
+  }
+};
+
+export const sendOTP = async (mobile) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE.replace(/\/$/, '')}/otp/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mobile }),
+    });
+    return await res.json();
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+};
+
+export const verifyOTP = async (mobile, otp) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE.replace(/\/$/, '')}/otp/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mobile, otp }),
+    });
+    return await res.json();
+  } catch (err) {
+    return { success: false, error: err.message };
   }
 };

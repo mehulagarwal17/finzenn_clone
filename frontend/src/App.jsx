@@ -14,9 +14,11 @@ import MicroInvestorGuidePage from './pages/MicroInvestorGuide';
 import LoanEligibilityPage from './pages/LoanEligibility';
 import Resources from './pages/Resources';
 import Onboarding from './pages/Onboarding';
+import Goals from './pages/Goals';
 import { AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Navbar from './components/common/Navbar';
+import SpinTheWheelModal from './components/dashboard/SpinTheWheelModal';
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -41,6 +43,7 @@ function AnimatedRoutes() {
         <Route path="/dashboard/loan-eligibility" element={<PrivateRoute><LoanEligibilityPage /></PrivateRoute>} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/goals" element={<PrivateRoute><Goals /></PrivateRoute>} />
         </Routes>
     </AnimatePresence>
   );
@@ -49,12 +52,23 @@ function AnimatedRoutes() {
 function AppContent() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const { isLoggedIn } = useAuth();
+  const [showWheel, setShowWheel] = useState(false);
 
+  // Show wheel modal after login, once per day
   useEffect(() => {
-    const handler = () => setShowOnboarding(true);
-    window.addEventListener('openOnboarding', handler);
-    return () => window.removeEventListener('openOnboarding', handler);
-  }, []);
+    if (isLoggedIn) {
+      const lastSpin = localStorage.getItem('lastSpinDate');
+      const today = new Date().toISOString().slice(0, 10);
+      if (lastSpin !== today) {
+        setShowWheel(true);
+      }
+    }
+  }, [isLoggedIn]);
+
+  const handleSpin = () => {
+    const today = new Date().toISOString().slice(0, 10);
+    localStorage.setItem('lastSpinDate', today);
+  };
 
   // Inject chat widget only if logged in
   useEffect(() => {
@@ -74,9 +88,10 @@ function AppContent() {
   }, [isLoggedIn]);
 
   return (
-    <>
+    <div className="min-h-screen bg-white dark:bg-[#0a0f1c] text-gray-900 dark:text-white transition-colors">
       <Navbar />
       <Toaster position="top-center" />
+      <SpinTheWheelModal open={showWheel} onClose={() => setShowWheel(false)} onSpin={handleSpin} />
       {showOnboarding && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
           <div className="w-full max-w-2xl mx-auto">
@@ -85,7 +100,7 @@ function AppContent() {
         </div>
       )}
       <AnimatedRoutes />
-    </>
+    </div>
   );
 }
 

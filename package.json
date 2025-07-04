@@ -1,6 +1,12 @@
 {
   "dependencies": {
+    "date-fns": "^4.1.0",
+    "multer": "^2.0.1",
     "node-fetch": "^2.7.0",
-    "tailwind-scrollbar-hide": "^4.0.0"
+    "react-confetti": "^6.4.0",
+    "react-custom-roulette": "^1.4.1",
+    "react-datepicker": "^8.4.0",
+    "tailwind-scrollbar-hide": "^4.0.0",
+    "tesseract.js": "^6.0.1"
   }
 }

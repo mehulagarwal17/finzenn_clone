@@ -118,7 +118,7 @@ const Resources = () => {
   const [activeCategory, setActiveCategory] = useState(0);
 
   return (
-    <div className="relative min-h-screen bg-[#0a0f1c] pt-8 text-white overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-[#0a0f1c] text-gray-900 dark:text-white transition-colors">
       <div className="absolute inset-0 -z-10">
         <AnimatedBackground />
       </div>

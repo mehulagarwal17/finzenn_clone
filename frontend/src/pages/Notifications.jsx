@@ -45,7 +45,7 @@ const Notifications = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a0f1c] pt-28 px-4 pb-8">
+    <div className="min-h-screen bg-white dark:bg-[#0a0f1c] text-gray-900 dark:text-white transition-colors pt-28 px-4 pb-8">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -65,15 +65,15 @@ const Notifications = () => {
             {notifications.map((n) => (
               <li
                 key={n.id}
-                className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-xl p-4 shadow-sm hover:bg-white/10 transition"
+                className="flex items-start gap-4 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-4 shadow-sm hover:bg-gray-200 dark:hover:bg-white/10 transition"
               >
                 <div className="mt-1">{iconMap[n.type] || <FaBell className="text-gray-400 text-xl" />}</div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-white text-lg">{n.title}</span>
-                    <span className="text-xs text-white/40 ml-2 whitespace-nowrap">{n.timestamp}</span>
+                    <span className="font-semibold text-gray-900 dark:text-white text-lg">{n.title}</span>
+                    <span className="text-xs text-gray-400 dark:text-white/40 ml-2 whitespace-nowrap">{n.timestamp}</span>
                   </div>
-                  <div className="text-white/80 mt-1 text-sm">{n.message}</div>
+                  <div className="text-gray-800 dark:text-white mt-1 text-sm">{n.message}</div>
                 </div>
               </li>
             ))}
